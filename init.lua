@@ -117,6 +117,7 @@ require('lazy').setup({
     priority = 1000,
     config = function()
       vim.cmd.colorscheme 'onedark'
+      vim.cmd.colorscheme 'habamax'
     end,
   },
 
@@ -203,6 +204,32 @@ vim.o.mouse = 'a'
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.o.clipboard = 'unnamedplus'
+
+
+-- begin wsl-clipboard-hack from https://github.com/neovim/neovim/issues/6695#issuecomment-586665923
+
+-- Enable system clipboard integration
+-- vim.o.clipboard+=unnamedplus
+
+-- Workaround for neovim wl-clipboard and netrw interaction hang 
+-- (see: https://github.com/neovim/neovim/issues/6695 and
+-- https://github.com/neovim/neovim/issues/9806)
+--[[
+vim.g.clipboard = {\
+'name': 'myClipboard',\
+      \   'copy': {
+      \      '+': 'wl-copy',
+      \      '*': 'wl-copy',
+      \    },
+      \   'paste': {
+      \      '+': 'wl-paste -o',
+      \      '*': 'wl-paste -o',
+      \   },
+      \   'cache_enabled': 0,
+      \ }
+--]]
+-- end wsl-clipboard-hack
+
 
 -- Enable break indent
 vim.o.breakindent = true
